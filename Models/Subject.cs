@@ -12,6 +12,9 @@ namespace Perusedit.Models
         [Required]
         public string Title { get; set; }
 
+        [Required]
+        public string Text { get; set; }
+
         public virtual ICollection<Response> Responses { get; set; }
 
         [ForeignKey("Category")]

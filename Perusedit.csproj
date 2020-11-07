@@ -137,6 +137,10 @@
     <Compile Include="Migrations\202011062019009_FirstMigration.designer.cs">
       <DependentUpon>202011062019009_FirstMigration.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202011071854301_AddText-Subject.cs" />
+    <Compile Include="Migrations\202011071854301_AddText-Subject.designer.cs">
+      <DependentUpon>202011071854301_AddText-Subject.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\DatabaseContext.cs" />
     <Compile Include="Models\Category.cs" />
@@ -204,6 +208,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202011062019009_FirstMigration.resx">
       <DependentUpon>202011062019009_FirstMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202011071854301_AddText-Subject.resx">
+      <DependentUpon>202011071854301_AddText-Subject.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />
