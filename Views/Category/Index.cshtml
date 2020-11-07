@@ -1,0 +1,40 @@
+﻿@model Perusedit.Models.Category
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a href="/Subject/Create/@Model.Id">Add Subject</a>
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Title
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.Subjects)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+
+                <form action="/Subject/Delete/@item.Id" method="post">
+                    @Html.HttpMethodOverride(HttpVerbs.Delete)
+                    <a onclick="this.parentNode.submit()">Delete</a>
+
+                </form>
+
+            </td>
+        </tr>
+    }
+
+</table>
