@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Perusedit.Models;
+using System;
 using System.Diagnostics;
 using System.Web.Mvc;
 
@@ -53,22 +54,30 @@ namespace Perusedit.Controllers
         // GET: Subject/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            var c = db.Subjects.Find(id);
+            return View(c);
         }
 
         // POST: Subject/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        [HttpPut]
+        public ActionResult Edit(int id, Subject sub)
         {
+            var h = JsonConvert.SerializeObject(sub);
             try
             {
-                // TODO: Add update logic here
+                var subj = db.Subjects.Find(id);
+                if (TryUpdateModel(subj))
+                {
 
-                return RedirectToAction("Index");
+                    subj.Title = sub.Title;
+                    subj.Text = sub.Text;
+                    db.SaveChanges();
+                }
+                return RedirectToAction("Index", "Category", new { id = subj.CategoryId });
             }
-            catch
+            catch (Exception e)
             {
-                return View();
+                return View("Goog");
             }
         }
 

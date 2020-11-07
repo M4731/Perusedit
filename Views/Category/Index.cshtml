@@ -15,6 +15,7 @@
             Title
         </th>
         <th>Text</th>
+        <th>Actions</th>
     </tr>
 
     @foreach (var item in Model.Subjects)
@@ -22,11 +23,15 @@
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.Text)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                <a href="/Subject/Edit/@item.Id">Edit</a>
+
+
+                |
 
                 <form action="/Subject/Delete/@item.Id" method="post">
                     @Html.HttpMethodOverride(HttpVerbs.Delete)
