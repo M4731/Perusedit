@@ -1,13 +1,11 @@
 ﻿using System.Data.Entity;
-
 namespace Perusedit.Models
 {
-    public class AppContext : DbContext
+    public class DatabaseContext : DbContext
     {
-        public AppContext() : base("DBConnectionString")
+        public DatabaseContext() : base("DBConnectionString")
         {
-            Database.SetInitializer(new MigrateDatabaseToLatestVersion<AppContext,
-            Perusedit.Migrations.Configuration>("DBConnectionString"));
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<DatabaseContext, Perusedit.Migrations.Configuration>("DBConnectionString"));
 
         }
         public DbSet<Response> Responses { get; set; }

@@ -13,7 +13,7 @@ namespace Perusedit.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "202011061924021_FirstMigration"; }
+            get { return "202011062019009_FirstMigration"; }
         }
         
         string IMigrationMetadata.Source

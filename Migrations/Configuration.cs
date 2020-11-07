@@ -2,16 +2,16 @@
 {
     using System.Data.Entity.Migrations;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<Perusedit.Models.AppContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<Perusedit.Models.DatabaseContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
             AutomaticMigrationDataLossAllowed = true;
-            ContextKey = "Perusedit.Models.AppContext";
+            ContextKey = "Perusedit.Models.DatabaseContext";
         }
 
-        protected override void Seed(Perusedit.Models.AppContext context)
+        protected override void Seed(Perusedit.Models.DatabaseContext context)
         {
             //  This method will be called after migrating to the latest version.
 

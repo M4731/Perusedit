@@ -16,11 +16,11 @@ namespace Perusedit.Models
         [Required]
         [ForeignKey("Subject")]
         public int SubjectId { get; set; }
-        public Subject Subject { get; set; }
+        public virtual Subject Subject { get; set; }
 
         [ForeignKey("Father")]
         public int FatherId { get; set; }
-        public Response Father { get; set; }
+        public virtual Response Father { get; set; }
 
 
     }
