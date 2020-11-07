@@ -11,6 +11,7 @@ namespace Perusedit.Models
         [Required]
         public string Text { get; set; }
 
+        [ForeignKey("FatherId")]
         public virtual ICollection<Response> Responses { get; set; }
 
         [Required]
@@ -18,7 +19,7 @@ namespace Perusedit.Models
         public int SubjectId { get; set; }
         public virtual Subject Subject { get; set; }
 
-        [ForeignKey("Father")]
+
         public int FatherId { get; set; }
         public virtual Response Father { get; set; }
 

@@ -141,6 +141,10 @@
     <Compile Include="Migrations\202011071854301_AddText-Subject.designer.cs">
       <DependentUpon>202011071854301_AddText-Subject.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202011072035004_changedFKofResponse.cs" />
+    <Compile Include="Migrations\202011072035004_changedFKofResponse.designer.cs">
+      <DependentUpon>202011072035004_changedFKofResponse.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\DatabaseContext.cs" />
     <Compile Include="Models\Category.cs" />
@@ -212,6 +216,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202011071854301_AddText-Subject.resx">
       <DependentUpon>202011071854301_AddText-Subject.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202011072035004_changedFKofResponse.resx">
+      <DependentUpon>202011072035004_changedFKofResponse.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />
