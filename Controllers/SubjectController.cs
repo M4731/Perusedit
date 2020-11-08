@@ -2,6 +2,7 @@
 using Perusedit.Models;
 using System;
 using System.Diagnostics;
+using System.Linq;
 using System.Web.Mvc;
 
 namespace Perusedit.Controllers
@@ -19,7 +20,8 @@ namespace Perusedit.Controllers
         // GET: Subject/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            var h = db.Subjects.First(s => s.Id == id);
+            return View(h);
         }
 
         // GET: Subject/Create

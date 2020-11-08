@@ -20,7 +20,7 @@ namespace Perusedit.Models
         public virtual Subject Subject { get; set; }
 
 
-        public int FatherId { get; set; }
+        public int? FatherId { get; set; }
         public virtual Response Father { get; set; }
 
 
