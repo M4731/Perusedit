@@ -20,7 +20,8 @@ namespace Perusedit.Controllers
         // GET: Subject/Details/5
         public ActionResult Details(int id)
         {
-            var h = db.Subjects.First(s => s.Id == id);
+            var h = db.Subjects.Include("Responses").First(s => s.Id == id);
+            Debug.WriteLine(h.Responses.Count);
             return View(h);
         }
 

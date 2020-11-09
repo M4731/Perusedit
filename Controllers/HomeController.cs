@@ -12,13 +12,17 @@ namespace Perusedit.Controllers
         public ActionResult Index()
         {
 
-            var s = db.Responses.Include("Responses").First(m => m.Id == 3);
-            var h = new JsonSerializerSettings();
-            h.MaxDepth = 1;
-            h.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
-            Debug.WriteLine(JsonConvert.SerializeObject(s.Responses, h));
+            //var h = new Response();
+            //h.Text = "ce text vrei";
+            //h.FatherId = null;
 
-            db.SaveChanges();
+            //var s = db.Responses.Include("Responses").First(m => m.Id == 3);
+            //var h = new JsonSerializerSettings();
+            //h.MaxDepth = 1;
+            //h.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+            //Debug.WriteLine(JsonConvert.SerializeObject(s.Responses, h));
+
+            //db.SaveChanges();
 
 
             var CatList = from category in db.Categories select category;
