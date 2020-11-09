@@ -5,42 +5,72 @@
     ViewBag.Title = "Details";
 }
 
-@helper Afisare(Perusedit.Models.Response r)
-{
-    <div class="panel panel-default" style="width:97%;margin-left:2.5%">
-        <div class="panel-body">
-            @r.Text
-        </div>
-        @foreach(var i in r.Responses)
-         {
-            @Afisare(i)
-         }
-    </div>
-}
-
-<h2>Details</h2>
-
-<div>
-    <h4>Subject</h4>
-    <hr />
-
-    <div class="panel panel-default" style="width:100%">
-        <div class="panel-heading">
-            <h3 class="panel-title">@Model.Title</h3>
-        </div>
-        <div class="panel-body">
-            @Model.Text
-        </div>
-        @foreach (var i in Model.Responses)
+@section scripts 
+    {
+    <script type="text/javascript">
+        function functieAdaugare(id)
         {
-            if (i.FatherId == null)
-            {
-                @Afisare(i);
-            }
+            if (document.getElementById("iddiv"))
+                document.getElementById("iddiv").remove();
+            console.log("ajutor")
+            var i =
+            `<div id="iddiv">
+                <form method="post" action="/Response/Create">
+                    <input type="hidden" name="SubjectId" value="@Model.Id" />
+                    <input type="hidden" name="FatherId" value="${id}" />
+                    <input type="text" name="Text" />
+                    <button class="btn btn-primary" type="submit">Submit</button>
+                </form>
+            </div >`
+            var w = document.createRange().createContextualFragment(i)
+            var q = document.getElementById(id);
+            console.log(document.getElementById(id))
+            q.appendChild(w)
         }
-    </div>
+    </script>
+    }
+
+    @helper Afisare(Perusedit.Models.Response r)
+    {
+        <div id="@r.Id" class="panel panel-default" style="width:97%;margin-left:2.5%">
+            <div class="panel-body">
+                @r.Text
+                <button type="button" onclick="functieAdaugare(@r.Id)" class="btn btn-primary pull-right" style="padding:0px 0px 0px 0px">
+                    <svg width="1.5em" height="1.3em" viewBox="0 0 16 16" class="bi bi-plus" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
+                    </svg>
+                </button>
+            </div>
+            @foreach (var i in r.Responses)
+            {
+                @Afisare(i)
+            }
+        </div>
+    }
+
+    <h2>Details</h2>
 
     <div>
-        <a href="/Category/Index/@Model.CategoryId">Back to List</a>
+        <h4>Subject</h4>
+        <hr />
+
+        <div class="panel panel-default" style="width:100%">
+            <div class="panel-heading">
+                <h3 class="panel-title">@Model.Title</h3>
+            </div>
+            <div class="panel-body">
+                @Model.Text
+            </div>
+            @foreach (var i in Model.Responses)
+            {
+                if (i.FatherId == null)
+                {
+                    @Afisare(i);
+                }
+            }
+        </div>
+
+        <div>
+            <a href="/Category/Index/@Model.CategoryId">Back to List</a>
+        </div>
     </div>
-</div>
