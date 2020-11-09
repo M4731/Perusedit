@@ -159,6 +159,10 @@
     <Compile Include="Migrations\202011081411580_responseFatherIdNullable.designer.cs">
       <DependentUpon>202011081411580_responseFatherIdNullable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202011092125570_m1.cs" />
+    <Compile Include="Migrations\202011092125570_m1.designer.cs">
+      <DependentUpon>202011092125570_m1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\DatabaseContext.cs" />
     <Compile Include="Models\Category.cs" />
@@ -237,6 +241,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202011081411580_responseFatherIdNullable.resx">
       <DependentUpon>202011081411580_responseFatherIdNullable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202011092125570_m1.resx">
+      <DependentUpon>202011092125570_m1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

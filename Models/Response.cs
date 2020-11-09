@@ -6,6 +6,21 @@ namespace Perusedit.Models
 {
     public class Response
     {
+        public Response(Response i)
+        {
+            Id = i.Id;
+            //Text = i.Text;
+            //FatherId = i.FatherId;
+            //Responses = i.Responses;
+            //SubjectId = i.SubjectId;
+
+        }
+
+        public Response()
+        {
+
+        }
+
         [Key]
         public int Id { get; set; }
         [Required]
@@ -22,7 +37,6 @@ namespace Perusedit.Models
 
         public int? FatherId { get; set; }
         public virtual Response Father { get; set; }
-
-
+        public Response I { get; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -66,24 +67,35 @@ namespace Perusedit.Controllers
             }
         }
 
-        // GET: Response/Delete/5
-        public ActionResult Delete(int id)
+        private void del(Response r)
         {
-            return View();
+            var lista = new List<Response>();
+            foreach(var morti in r.Responses)
+            {
+                lista.Add(new Response(morti));
+            }
+            foreach (var i in lista)
+            {
+                var vv = db.Responses.Include("Responses").First(s => s.Id == i.Id);
+                del(vv);
+            }
+            var v = db.Responses.Include("Responses").First(s => s.Id == r.Id);
+            db.Responses.Remove(r);
+            db.SaveChanges();
         }
 
-        // POST: Response/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        [HttpDelete]
+        public ActionResult Delete(int id)
         {
             try
             {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
+                var v = db.Responses.Include("Responses").First(s => s.Id == id);
+                del(v);
+                return Redirect("/Subject/Details/" + v.SubjectId);
             }
-            catch
+            catch (Exception e)
             {
+                //Debug.WriteLine(e.InnerException);
                 return View();
             }
         }
