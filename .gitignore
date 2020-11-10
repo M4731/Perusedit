@@ -341,7 +341,7 @@ healthchecksdb
 
 #added after
 *.mdf
-Web.config
+*.config
 
 
 
