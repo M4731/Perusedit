@@ -37,8 +37,7 @@
 
                 <form action="/Subject/Delete/@item.Id" method="post">
                     @Html.HttpMethodOverride(HttpVerbs.Delete)
-                    <a onclick="this.parentNode.submit()">Delete</a>
-
+                    <a onclick="this.parentNode.submit()" style="cursor: pointer">Delete</a>
                 </form>
 
             </td>

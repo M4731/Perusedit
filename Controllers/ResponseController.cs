@@ -53,13 +53,19 @@ namespace Perusedit.Controllers
         }
 
         // POST: Response/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        [HttpPut]
+        public ActionResult Edit(int id, Response res)
         {
             try
             {
-                // TODO: Add update logic here
-                return RedirectToAction("Index");
+                Debug.WriteLine(res.Text);
+                var q = db.Responses.Find(id);
+                if(TryUpdateModel(q))
+                {
+                    q.Text = res.Text;
+                    db.SaveChanges();
+                }
+                return Redirect("/Subject/Details/" + q.SubjectId);
             }
             catch
             {
