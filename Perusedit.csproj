@@ -210,6 +210,7 @@
     <Content Include="Views\Subject\Edit.cshtml" />
     <Content Include="Views\Subject\Details.cshtml" />
     <Content Include="Web.config" />
+    <Content Include="Views\Shared\Nav.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -8,7 +8,7 @@ namespace Perusedit.Models
 
         [Key]
         public int Id { get; set; }
-        [Required]
+        [Required(ErrorMessage = "*Numele este obligatoriu.")]
         public string Name { get; set; }
 
         public virtual ICollection<Subject> Subjects { get; set; }

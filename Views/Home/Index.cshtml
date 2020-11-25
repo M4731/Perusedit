@@ -1,4 +1,6 @@
-﻿@{
+﻿@model Perusedit.Models.Category
+
+@{
     ViewBag.Title = "Home Page";
 }
 
@@ -6,15 +8,18 @@
 
 <h2>Categories</h2>
 
-<form method="post" action="/Category/New">
-    <div class="form-group">
-        <label>Category Name</label>
-        <input type="text" name="Name" />
-        &nbsp;
-        <button type="submit" class="btn btn-primary">Add</button>
-    </div>
+@using (Html.BeginForm(actionName: "New", controllerName: "Category"))
+{
+<div class="form-group">
+    <label>Category Name</label>
+    <input type="text" name="Name" />
+    &nbsp;
+    <button type="submit" class="btn btn-primary">Add</button>
+    @Html.ValidationMessageFor(m => m.Name, null, new { @class = "text-danger" })
+</div>
+}
 
-</form>
+
 
 
 

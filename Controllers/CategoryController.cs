@@ -1,5 +1,6 @@
 ﻿using Perusedit.Models;
 using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -26,10 +27,12 @@ namespace Perusedit.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index", "Home");
             }
-
             catch (Exception e)
             {
-                return Redirect("GOOG");
+                Debug.WriteLine(e.Message);
+                var CatList = from category in db.Categories select category;
+                ViewBag.Categories = CatList;
+                return View("~/Views/Home/Index.cshtml",c);
             }
         }
 
@@ -66,12 +69,16 @@ namespace Perusedit.Controllers
                     category.Name = cat.Name;
 
                     db.SaveChanges();
+                    return RedirectToAction("Index", "Home");
                 }
-                return RedirectToAction("Index", "Home");
+                else
+                {
+                    return View(cat);
+                }
             }
             catch (Exception e)
             {
-                return View();
+                return View(cat);
             }
 
         }

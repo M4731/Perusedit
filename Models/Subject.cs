@@ -9,10 +9,10 @@ namespace Perusedit.Models
 
         [Key]
         public int Id { get; set; }
-        [Required]
+        [Required(ErrorMessage = "*Titlul este obligatoriu.")]
         public string Title { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "*Textul este obligatoriu.")]
         public string Text { get; set; }
 
         public virtual ICollection<Response> Responses { get; set; }

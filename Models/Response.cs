@@ -23,7 +23,7 @@ namespace Perusedit.Models
 
         [Key]
         public int Id { get; set; }
-        [Required]
+        [Required(ErrorMessage = "*Textul este obligatoriu.")]
         public string Text { get; set; }
 
         [ForeignKey("FatherId")]
