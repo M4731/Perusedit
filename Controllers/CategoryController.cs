@@ -10,9 +10,14 @@ namespace Perusedit.Controllers
     {
 
         private readonly DatabaseContext db = new DatabaseContext();
-        // GET: Category
+
         public ActionResult Index(int id)
         {
+            if(TempData.ContainsKey("msg"))
+            {
+                ViewBag.msg = TempData["msg"];
+            }
+
             var c = db.Categories.Include("Subjects").First(m => m.Id == id);
             return View(c);
         }
@@ -25,6 +30,7 @@ namespace Perusedit.Controllers
             {
                 db.Categories.Add(c);
                 db.SaveChanges();
+                TempData["msg"] = "Categoria a fost adaugata.";
                 return RedirectToAction("Index", "Home");
             }
             catch (Exception e)
@@ -39,15 +45,11 @@ namespace Perusedit.Controllers
         [HttpDelete]
         public ActionResult Delete(int id)
         {
-
-
             var c = db.Categories.Find(id);
             db.Categories.Remove(c);
             db.SaveChanges();
+            TempData["msg"] = "Categoria a fost stearsa.";
             return RedirectToAction("Index", "Home");
-
-
-
         }
 
 
@@ -65,10 +67,10 @@ namespace Perusedit.Controllers
                 Category category = db.Categories.Find(id);
                 if (TryUpdateModel(category))
                 {
-                    //article = requestArticle;
                     category.Name = cat.Name;
 
                     db.SaveChanges();
+                    TempData["msg"] = "Categoria a fost editata.";
                     return RedirectToAction("Index", "Home");
                 }
                 else

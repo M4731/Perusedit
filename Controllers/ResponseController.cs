@@ -11,81 +11,101 @@ namespace Perusedit.Controllers
     public class ResponseController : Controller
     {
         private DatabaseContext db = new DatabaseContext();
-        // GET: Response
-        public ActionResult Index()
+
+        public ActionResult New(int id)
         {
+            ViewBag.Sub = db.Responses.Find(id).SubjectId;
+            ViewBag.Id = id;
             return View();
         }
 
-        // GET: Response/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        // GET: Response/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Response/Create
         [HttpPost]
-        public ActionResult Create(Response res)
+        public ActionResult New(Response res)
         {
             try
             {
-                // TODO: Add insert logic here
+                var r = db.Responses.Find(res.FatherId);
+                res.SubjectId = r.SubjectId;
                 db.Responses.Add(res);
                 db.SaveChanges();
+                TempData["msg"] = "Raspunsul a fost adaugat.";
                 return Redirect("/Subject/Details/" + res.SubjectId);
             }
             catch
             {
-                return View();
+                ViewBag.Id = res.FatherId;
+                ViewBag.Sub = res.SubjectId;
+                return View(res);
             }
         }
 
-        // GET: Response/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult NewNull (int id)
         {
+            ViewBag.Id = id;
             return View();
         }
 
-        // POST: Response/Edit/5
+        [HttpPost]
+        public ActionResult NewNull(Response res)
+        {
+            try
+            {
+                res.FatherId = null;
+                db.Responses.Add(res);
+                db.SaveChanges();
+                TempData["msg"] = "Raspunsul a fost adaugat.";
+                return Redirect("/Subject/Details/" + res.SubjectId);
+            }
+            catch
+            {
+                ViewBag.Id = res.SubjectId;
+                return View(res);
+            }
+        }
+
+        public ActionResult Edit(int id)
+        {
+            var r = db.Responses.Find(id);
+            return View(r);
+        }
+
         [HttpPut]
         public ActionResult Edit(int id, Response res)
         {
             try
             {
-                Debug.WriteLine(res.Text);
                 var q = db.Responses.Find(id);
                 if(TryUpdateModel(q))
                 {
                     q.Text = res.Text;
                     db.SaveChanges();
+                    TempData["msg"] = "Raspunsul a fost editat.";
+                }
+                else
+                {
+
+                    return View(res);
                 }
                 return Redirect("/Subject/Details/" + q.SubjectId);
             }
             catch
             {
-                return View();
+                return View(res);
             }
         }
 
         private void del(Response r)
         {
             var lista = new List<Response>();
-            foreach(var morti in r.Responses)
+            foreach(var mo in r.Responses)
             {
-                lista.Add(new Response(morti));
+                lista.Add(new Response(mo));
             }
             foreach (var i in lista)
             {
                 var vv = db.Responses.Include("Responses").First(s => s.Id == i.Id);
                 del(vv);
             }
-            var v = db.Responses.Include("Responses").First(s => s.Id == r.Id);
             db.Responses.Remove(r);
             db.SaveChanges();
         }
@@ -97,12 +117,13 @@ namespace Perusedit.Controllers
             {
                 var v = db.Responses.Include("Responses").First(s => s.Id == id);
                 del(v);
+                TempData["msg"] = "Raspunsul a fost sters.";
                 return Redirect("/Subject/Details/" + v.SubjectId);
             }
             catch (Exception e)
             {
-                //Debug.WriteLine(e.InnerException);
-                return View();
+                var v = db.Responses.Find(id);
+                return View("Details","Subject",v.Subject);
             }
         }
     }

@@ -9,6 +9,13 @@
 <p>
     <a href="/Subject/Create/@Model.Id">Add Subject</a>
 </p>
+
+<div>
+    @ViewBag.msg
+    <br />
+    <br />
+</div>
+
 <table class="table">
     <tr>
         <th>
@@ -31,9 +38,9 @@
                 <a href="/Subject/Edit/@item.Id">Edit</a>
 
 
-                |
+                @*|*@
                 <a href="/Subject/Details/@item.Id">Details</a>
-                |
+                @*|*@
 
                 <form action="/Subject/Delete/@item.Id" method="post">
                     @Html.HttpMethodOverride(HttpVerbs.Delete)

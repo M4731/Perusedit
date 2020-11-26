@@ -211,6 +211,9 @@
     <Content Include="Views\Subject\Details.cshtml" />
     <Content Include="Web.config" />
     <Content Include="Views\Shared\Nav.cshtml" />
+    <Content Include="Views\Response\New.cshtml" />
+    <Content Include="Views\Response\Edit.cshtml" />
+    <Content Include="Views\Response\NewNull.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -248,9 +251,7 @@
       <DependentUpon>202011092125570_m1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\Response\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

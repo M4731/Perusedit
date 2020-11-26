@@ -11,108 +11,80 @@ namespace Perusedit.Controllers
     {
 
         private readonly DatabaseContext db = new DatabaseContext();
-        // GET: Subject
-        public ActionResult Index()
-        {
-            return View();
-        }
 
-        // GET: Subject/Details/5
         public ActionResult Details(int id)
         {
+            if (TempData.ContainsKey("msg"))
+            {
+                ViewBag.msg = TempData["msg"];
+            }
+
             var h = db.Subjects.Include("Responses").First(s => s.Id == id);
             Debug.WriteLine(h.Responses.Count);
             return View(h);
         }
 
-        // GET: Subject/Create
         public ActionResult Create(int id)
         {
             ViewBag.CategoryId = id;
             return View();
         }
 
-        // POST: Subject/Create
         [HttpPost]
         public ActionResult Create(Subject sub)
         {
-            var h = JsonConvert.SerializeObject(sub);
-            var s = Request.Form.Get("CategoryId");
-            Debug.WriteLine(h);
-            Debug.WriteLine(s);
             try
             {
                 db.Subjects.Add(sub);
                 db.SaveChanges();
-                return Redirect("/Category/Index/" + sub.CategoryId);//TOCHANGE
-
-
+                TempData["msg"] = "Subiectul a fost adaugat.";
+                return Redirect("/Category/Index/" + sub.CategoryId);
             }
             catch
             {
-                return View();
+                return View(sub);
             }
         }
 
-        // GET: Subject/Edit/5
         public ActionResult Edit(int id)
         {
             var c = db.Subjects.Find(id);
             return View(c);
         }
 
-        // POST: Subject/Edit/5
         [HttpPut]
         public ActionResult Edit(int id, Subject sub)
         {
-            var h = JsonConvert.SerializeObject(sub);
             try
             {
                 var subj = db.Subjects.Find(id);
                 if (TryUpdateModel(subj))
                 {
-
                     subj.Title = sub.Title;
                     subj.Text = sub.Text;
                     db.SaveChanges();
+                    TempData["msg"] = "Subiectul a fost editat.";
+                }
+                else
+                {
+                    return View(sub);
                 }
                 return RedirectToAction("Index", "Category", new { id = subj.CategoryId });
             }
             catch (Exception e)
             {
-                return View("Goog");
+                return View(sub);
             }
         }
-
-        // GET: Subject/Delete/5
 
         [HttpDelete]
         public ActionResult Delete(int id)
         {
-
-
             var c = db.Subjects.Find(id);
             db.Subjects.Remove(c);
             db.SaveChanges();
+            TempData["msg"] = "Subiectul a fost sters.";
             return RedirectToAction("Index", "Category", new { id = c.CategoryId });
-
-
-
-        }
-        // POST: Subject/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
         }
     }
 }
