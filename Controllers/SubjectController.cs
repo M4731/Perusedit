@@ -1,7 +1,5 @@
-﻿using Newtonsoft.Json;
-using Perusedit.Models;
+﻿using Perusedit.Models;
 using System;
-using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -10,7 +8,7 @@ namespace Perusedit.Controllers
     public class SubjectController : Controller
     {
 
-        private readonly DatabaseContext db = new DatabaseContext();
+        private readonly ApplicationDbContext db = new ApplicationDbContext();
 
         public ActionResult Details(int id)
         {
@@ -20,7 +18,6 @@ namespace Perusedit.Controllers
             }
 
             var h = db.Subjects.Include("Responses").First(s => s.Id == id);
-            Debug.WriteLine(h.Responses.Count);
             return View(h);
         }
 

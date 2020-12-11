@@ -9,11 +9,11 @@ namespace Perusedit.Controllers
     public class CategoryController : Controller
     {
 
-        private readonly DatabaseContext db = new DatabaseContext();
+        private readonly ApplicationDbContext db = new ApplicationDbContext();
 
         public ActionResult Index(int id)
         {
-            if(TempData.ContainsKey("msg"))
+            if (TempData.ContainsKey("msg"))
             {
                 ViewBag.msg = TempData["msg"];
             }
@@ -38,7 +38,7 @@ namespace Perusedit.Controllers
                 Debug.WriteLine(e.Message);
                 var CatList = from category in db.Categories select category;
                 ViewBag.Categories = CatList;
-                return View("~/Views/Home/Index.cshtml",c);
+                return View("~/Views/Home/Index.cshtml", c);
             }
         }
 

@@ -1,16 +1,14 @@
-﻿using System;
+﻿using Perusedit.Models;
+using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using Perusedit.Models;
 
 namespace Perusedit.Controllers
 {
     public class ResponseController : Controller
     {
-        private DatabaseContext db = new DatabaseContext();
+        private readonly ApplicationDbContext db = new ApplicationDbContext();
 
         public ActionResult New(int id)
         {
@@ -39,7 +37,7 @@ namespace Perusedit.Controllers
             }
         }
 
-        public ActionResult NewNull (int id)
+        public ActionResult NewNull(int id)
         {
             ViewBag.Id = id;
             return View();
@@ -75,7 +73,7 @@ namespace Perusedit.Controllers
             try
             {
                 var q = db.Responses.Find(id);
-                if(TryUpdateModel(q))
+                if (TryUpdateModel(q))
                 {
                     q.Text = res.Text;
                     db.SaveChanges();
@@ -97,7 +95,7 @@ namespace Perusedit.Controllers
         private void del(Response r)
         {
             var lista = new List<Response>();
-            foreach(var mo in r.Responses)
+            foreach (var mo in r.Responses)
             {
                 lista.Add(new Response(mo));
             }
@@ -123,7 +121,7 @@ namespace Perusedit.Controllers
             catch (Exception e)
             {
                 var v = db.Responses.Find(id);
-                return View("Details","Subject",v.Subject);
+                return View("Details", "Subject", v.Subject);
             }
         }
     }
