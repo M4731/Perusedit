@@ -44,6 +44,15 @@ namespace Perusedit
                 var role = new IdentityRole();
                 role.Name = "Moderator";
                 roleManager.Create(role);
+
+                var user = new ApplicationUser();
+                user.UserName = "moderator@gmail.com";
+                user.Email = "moderator@gmail.com";
+                var adminCreated = UserManager.Create(user, "!1Admin");
+                if (adminCreated.Succeeded)
+                {
+                    UserManager.AddToRole(user.Id, "Moderator");
+                }
             }
             if (!roleManager.RoleExists("User"))
             {
