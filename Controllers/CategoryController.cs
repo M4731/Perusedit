@@ -24,6 +24,7 @@ namespace Perusedit.Controllers
 
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public ActionResult New(Category c)
         {
             try
@@ -43,6 +44,7 @@ namespace Perusedit.Controllers
         }
 
         [HttpDelete]
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int id)
         {
             var c = db.Categories.Find(id);
@@ -53,13 +55,16 @@ namespace Perusedit.Controllers
         }
 
 
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(int id)
         {
             var c = db.Categories.Find(id);
             return View(c);
 
         }
+
         [HttpPut]
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(int id, Category cat)
         {
             try

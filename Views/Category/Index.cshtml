@@ -1,4 +1,5 @@
 ﻿@model Perusedit.Models.Category
+@using Microsoft.AspNet.Identity
 
 @{
     ViewBag.Title = "Index";
@@ -35,17 +36,23 @@
                 @Html.DisplayFor(modelItem => item.Text)
             </td>
             <td>
-                <a href="/Subject/Edit/@item.Id">Edit</a>
+                @if (System.Web.HttpContext.Current.User.Identity.GetUserId() == item.UserId || System.Web.HttpContext.Current.User.IsInRole("Moderator") || System.Web.HttpContext.Current.User.IsInRole("Admin"))
+                {
+                    <a href="/Subject/Edit/@item.Id">Edit</a>
+                }
 
 
                 @*|*@
                 <a href="/Subject/Details/@item.Id">Details</a>
                 @*|*@
 
-                <form action="/Subject/Delete/@item.Id" method="post">
-                    @Html.HttpMethodOverride(HttpVerbs.Delete)
-                    <a onclick="this.parentNode.submit()" style="cursor: pointer">Delete</a>
-                </form>
+                @if (System.Web.HttpContext.Current.User.Identity.GetUserId() == item.UserId || System.Web.HttpContext.Current.User.IsInRole("Moderator") || System.Web.HttpContext.Current.User.IsInRole("Admin"))
+                {
+                    <form action="/Subject/Delete/@item.Id" method="post">
+                        @Html.HttpMethodOverride(HttpVerbs.Delete)
+                        <a onclick="this.parentNode.submit()" style="cursor: pointer">Delete</a>
+                    </form>
+                }
 
             </td>
         </tr>
