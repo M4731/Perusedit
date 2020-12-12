@@ -1,4 +1,5 @@
 ﻿@model Perusedit.Models.Subject
+@using Microsoft.AspNet.Identity
 
 @{
     ViewBag.Title = "Create";
@@ -28,6 +29,7 @@
             </div>
         </div>
         <input type="hidden" name="CategoryId" value="@ViewBag.CategoryId" />
+        <input type="hidden" name="UserId" value="@System.Web.HttpContext.Current.User.Identity.GetUserId()" />
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
