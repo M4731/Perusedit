@@ -1,4 +1,5 @@
-﻿using Perusedit.Models;
+﻿using Microsoft.AspNet.Identity;
+using Perusedit.Models;
 using System;
 using System.Linq;
 using System.Web.Mvc;
@@ -21,6 +22,7 @@ namespace Perusedit.Controllers
             return View(h);
         }
 
+        [Authorize]
         public ActionResult Create(int id)
         {
             ViewBag.CategoryId = id;
@@ -28,6 +30,7 @@ namespace Perusedit.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public ActionResult Create(Subject sub)
         {
             try
@@ -43,44 +46,61 @@ namespace Perusedit.Controllers
             }
         }
 
+        [Authorize]
         public ActionResult Edit(int id)
         {
+            var ui = System.Web.HttpContext.Current.User;
             var c = db.Subjects.Find(id);
-            return View(c);
+            if (ui.Identity.GetUserId() == c.UserId)
+                return View(c);
+            else
+                return Redirect("/Category/Index/" + c.CategoryId);
         }
 
         [HttpPut]
+        [Authorize]
         public ActionResult Edit(int id, Subject sub)
         {
-            try
+            var ui = System.Web.HttpContext.Current.User;
+            if (ui.Identity.GetUserId() == sub.UserId)
             {
-                var subj = db.Subjects.Find(id);
-                if (TryUpdateModel(subj))
+                try
                 {
-                    subj.Title = sub.Title;
-                    subj.Text = sub.Text;
-                    db.SaveChanges();
-                    TempData["msg"] = "Subiectul a fost editat.";
+                    var subj = db.Subjects.Find(id);
+                    if (TryUpdateModel(subj))
+                    {
+                        subj.Title = sub.Title;
+                        subj.Text = sub.Text;
+                        db.SaveChanges();
+                        TempData["msg"] = "Subiectul a fost editat.";
+                    }
+                    else
+                    {
+                        return View(sub);
+                    }
+                    return RedirectToAction("Index", "Category", new { id = subj.CategoryId });
                 }
-                else
+                catch (Exception e)
                 {
                     return View(sub);
                 }
-                return RedirectToAction("Index", "Category", new { id = subj.CategoryId });
             }
-            catch (Exception e)
-            {
+            else
                 return View(sub);
-            }
         }
 
         [HttpDelete]
+        [Authorize]
         public ActionResult Delete(int id)
         {
+            var ui = System.Web.HttpContext.Current.User;
             var c = db.Subjects.Find(id);
-            db.Subjects.Remove(c);
-            db.SaveChanges();
-            TempData["msg"] = "Subiectul a fost sters.";
+            if (ui.Identity.GetUserId() == c.UserId || ui.IsInRole("Moderator") || ui.IsInRole("Admin"))
+            {
+                db.Subjects.Remove(c);
+                db.SaveChanges();
+                TempData["msg"] = "Subiectul a fost sters.";
+            }
             return RedirectToAction("Index", "Category", new { id = c.CategoryId });
         }
     }

@@ -1,4 +1,5 @@
-﻿using Perusedit.Models;
+﻿using Microsoft.AspNet.Identity;
+using Perusedit.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,7 @@ namespace Perusedit.Controllers
     {
         private readonly ApplicationDbContext db = new ApplicationDbContext();
 
+        [Authorize]
         public ActionResult New(int id)
         {
             ViewBag.Sub = db.Responses.Find(id).SubjectId;
@@ -18,6 +20,7 @@ namespace Perusedit.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public ActionResult New(Response res)
         {
             try
@@ -37,6 +40,7 @@ namespace Perusedit.Controllers
             }
         }
 
+        [Authorize]
         public ActionResult NewNull(int id)
         {
             ViewBag.Id = id;
@@ -44,6 +48,7 @@ namespace Perusedit.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public ActionResult NewNull(Response res)
         {
             try
@@ -61,18 +66,27 @@ namespace Perusedit.Controllers
             }
         }
 
+        [Authorize]
         public ActionResult Edit(int id)
         {
             var r = db.Responses.Find(id);
-            return View(r);
+            if (System.Web.HttpContext.Current.User.Identity.GetUserId() == r.UserId)
+                return View(r);
+            else
+                return Redirect("/Subject/Details/" + r.SubjectId);
         }
 
         [HttpPut]
+        [Authorize]
         public ActionResult Edit(int id, Response res)
         {
+            var ui = System.Web.HttpContext.Current.User.Identity.GetUserId();
+            var q = db.Responses.Find(id);
+            if (ui != q.UserId)
+                return Redirect("/Subject/Details/" + q.SubjectId);
+
             try
             {
-                var q = db.Responses.Find(id);
                 if (TryUpdateModel(q))
                 {
                     q.Text = res.Text;
@@ -109,14 +123,24 @@ namespace Perusedit.Controllers
         }
 
         [HttpDelete]
+        [Authorize]
         public ActionResult Delete(int id)
         {
+            var ui = System.Web.HttpContext.Current.User;
+
             try
             {
                 var v = db.Responses.Include("Responses").First(s => s.Id == id);
-                del(v);
-                TempData["msg"] = "Raspunsul a fost sters.";
-                return Redirect("/Subject/Details/" + v.SubjectId);
+                if (ui.IsInRole("Admin") || ui.IsInRole("Moderator") || ui.Identity.GetUserId() == v.UserId)
+                {
+                    del(v);
+                    TempData["msg"] = "Raspunsul a fost sters.";
+                    return Redirect("/Subject/Details/" + v.SubjectId);
+                }
+                else
+                    return Redirect("/Subject/Details/" + v.SubjectId);
+
+
             }
             catch (Exception e)
             {
