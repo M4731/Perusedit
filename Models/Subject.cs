@@ -21,5 +21,8 @@ namespace Perusedit.Models
         public int CategoryId { get; set; }
         public virtual Category Category { get; set; }
 
+        [ForeignKey("User")]
+        public string UserId { get; set; }
+        public virtual ApplicationUser User { get; set; }
     }
 }

@@ -3,3 +3,6 @@
 ################################################################################
 
 /App_Data/Database1_log.ldf
+/App_Data/Database1.mdf
+/App_Data/aspnet-Perusedit-20201211093704_log.ldf
+/App_Data/aspnet-Perusedit-20201211093704.mdf

@@ -1,17 +1,18 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using Perusedit.Models;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using Perusedit.Models;
 
 namespace Perusedit.Controllers
 {
     public class ResponseController : Controller
     {
-        private DatabaseContext db = new DatabaseContext();
+        private readonly ApplicationDbContext db = new ApplicationDbContext();
 
+        [Authorize]
         public ActionResult New(int id)
         {
             ViewBag.Sub = db.Responses.Find(id).SubjectId;
@@ -20,6 +21,7 @@ namespace Perusedit.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public ActionResult New(Response res)
         {
             try
@@ -39,13 +41,15 @@ namespace Perusedit.Controllers
             }
         }
 
-        public ActionResult NewNull (int id)
+        [Authorize]
+        public ActionResult NewNull(int id)
         {
             ViewBag.Id = id;
             return View();
         }
 
         [HttpPost]
+        [Authorize]
         public ActionResult NewNull(Response res)
         {
             try
@@ -63,19 +67,28 @@ namespace Perusedit.Controllers
             }
         }
 
+        [Authorize]
         public ActionResult Edit(int id)
         {
             var r = db.Responses.Find(id);
-            return View(r);
+            if(System.Web.HttpContext.Current.User.Identity.GetUserId() == r.UserId)
+                return View(r);
+            else
+                return Redirect("/Subject/Details/" + r.SubjectId);
         }
 
         [HttpPut]
+        [Authorize]
         public ActionResult Edit(int id, Response res)
         {
+            var ui = System.Web.HttpContext.Current.User.Identity.GetUserId();
+            var q = db.Responses.Find(id);
+            if (ui != q.UserId)
+                return Redirect("/Subject/Details/" + q.SubjectId);
+
             try
             {
-                var q = db.Responses.Find(id);
-                if(TryUpdateModel(q))
+                if (TryUpdateModel(q))
                 {
                     q.Text = res.Text;
                     db.SaveChanges();
@@ -97,7 +110,7 @@ namespace Perusedit.Controllers
         private void del(Response r)
         {
             var lista = new List<Response>();
-            foreach(var mo in r.Responses)
+            foreach (var mo in r.Responses)
             {
                 lista.Add(new Response(mo));
             }
@@ -111,19 +124,29 @@ namespace Perusedit.Controllers
         }
 
         [HttpDelete]
+        [Authorize]
         public ActionResult Delete(int id)
         {
+            var ui = System.Web.HttpContext.Current.User;
+
             try
             {
                 var v = db.Responses.Include("Responses").First(s => s.Id == id);
-                del(v);
-                TempData["msg"] = "Raspunsul a fost sters.";
-                return Redirect("/Subject/Details/" + v.SubjectId);
+                if(ui.IsInRole("Admin") || ui.IsInRole("Moderator") || ui.Identity.GetUserId()==v.UserId )
+                {
+                    del(v);
+                    TempData["msg"] = "Raspunsul a fost sters.";
+                    return Redirect("/Subject/Details/" + v.SubjectId);
+                }
+                else
+                    return Redirect("/Subject/Details/" + v.SubjectId);
+
+
             }
             catch (Exception e)
             {
                 var v = db.Responses.Find(id);
-                return View("Details","Subject",v.Subject);
+                return View("Details", "Subject", v.Subject);
             }
         }
     }

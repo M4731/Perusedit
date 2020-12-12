@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-using Perusedit.Models;
-using System.Diagnostics;
+﻿using Perusedit.Models;
 using System.Linq;
 using System.Web.Mvc;
 namespace Perusedit.Controllers
@@ -8,7 +6,7 @@ namespace Perusedit.Controllers
     public class HomeController : Controller
     {
 
-        private readonly DatabaseContext db = new DatabaseContext();
+        private readonly ApplicationDbContext db = new ApplicationDbContext();
         public ActionResult Index()
         {
             if (TempData.ContainsKey("msg"))

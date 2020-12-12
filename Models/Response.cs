@@ -38,5 +38,9 @@ namespace Perusedit.Models
         public int? FatherId { get; set; }
         public virtual Response Father { get; set; }
         public Response I { get; }
+
+        [ForeignKey("User")]
+        public string UserId { get; set; }
+        public virtual ApplicationUser User { get; set; }
     }
 }

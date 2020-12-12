@@ -1,4 +1,5 @@
 ﻿@model Perusedit.Models.Category
+@using Microsoft.AspNet.Identity
 
 @{
     ViewBag.Title = "Home Page";
@@ -9,16 +10,18 @@
 <h2>Categories</h2>
 
 
-
-@using (Html.BeginForm(actionName: "New", controllerName: "Category"))
+@if (System.Web.HttpContext.Current.User.IsInRole("Admin"))
 {
-    <div class="form-group">
-        <label>Category Name</label>
-        <input type="text" name="Name" />
-        &nbsp;
-        <button type="submit" class="btn btn-primary">Add</button>
-        @Html.ValidationMessageFor(m => m.Name, null, new { @class = "text-danger" })
-    </div>
+    using (Html.BeginForm(actionName: "New", controllerName: "Category"))
+    {
+        <div class="form-group">
+            <label>Category Name</label>
+            <input type="text" name="Name" />
+            &nbsp;
+            <button type="submit" class="btn btn-primary">Add</button>
+            @Html.ValidationMessageFor(m => m.Name, null, new { @class = "text-danger" })
+        </div>
+    }
 }
 
 <div>
@@ -31,12 +34,16 @@
     <ul class="list-group">
         @foreach (var cat in ViewBag.Categories)
         {
-            <li style="height:50px; padding-top:5px" class="list-group-item ">
-                <a style="font-size:18px; margin-top:4px" class="pull-left" href="/Category/Index/@cat.Id">
-                    @cat.Name
-                </a>
+        <li style="height:50px; padding-top:5px" class="list-group-item ">
+            <a style="font-size:18px; margin-top:4px" class="pull-left" href="/Category/Index/@cat.Id">
+                @cat.Name
+            </a>
+
+            @if (System.Web.HttpContext.Current.User.IsInRole("Admin"))
+            {
                 <div class="pull-right row justify-content-around">
                     <div class="col-md-4">
+
 
                         <button class="btn  btn-primary" style="padding:5px 5px 0px 5px" onclick="location.href='/Category/Edit/@cat.Id'">
                             <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-pencil-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -58,8 +65,9 @@
                     </div>
 
                 </div>
+            }
 
-            </li>
+        </li>
 
 
         }
