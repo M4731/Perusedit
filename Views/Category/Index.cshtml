@@ -36,7 +36,7 @@
                 @Html.DisplayFor(modelItem => item.Text)
             </td>
             <td>
-                @if (System.Web.HttpContext.Current.User.Identity.GetUserId() == item.UserId || System.Web.HttpContext.Current.User.IsInRole("Moderator") || System.Web.HttpContext.Current.User.IsInRole("Admin"))
+                @if ((System.Web.HttpContext.Current.User.Identity.GetUserId() == item.UserId || System.Web.HttpContext.Current.User.IsInRole("Moderator") || System.Web.HttpContext.Current.User.IsInRole("Admin")) && System.Web.HttpContext.Current.User.Identity.IsAuthenticated)
                 {
                     <a href="/Subject/Edit/@item.Id">Edit</a>
                 }
@@ -46,7 +46,7 @@
                 <a href="/Subject/Details/@item.Id">Details</a>
                 @*|*@
 
-                @if (System.Web.HttpContext.Current.User.Identity.GetUserId() == item.UserId || System.Web.HttpContext.Current.User.IsInRole("Moderator") || System.Web.HttpContext.Current.User.IsInRole("Admin"))
+                @if ((System.Web.HttpContext.Current.User.Identity.GetUserId() == item.UserId || System.Web.HttpContext.Current.User.IsInRole("Moderator") || System.Web.HttpContext.Current.User.IsInRole("Admin")) && System.Web.HttpContext.Current.User.Identity.IsAuthenticated)
                 {
                     <form action="/Subject/Delete/@item.Id" method="post">
                         @Html.HttpMethodOverride(HttpVerbs.Delete)
