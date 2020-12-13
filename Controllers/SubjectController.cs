@@ -51,7 +51,9 @@ namespace Perusedit.Controllers
         {
             var ui = System.Web.HttpContext.Current.User;
             var c = db.Subjects.Find(id);
-            if (ui.Identity.GetUserId() == c.UserId)
+            var p = db.Categories;
+            ViewBag.Categories = p;
+            if (ui.Identity.GetUserId() == c.UserId || ui.IsInRole("Moderator") || ui.IsInRole("Admin"))
                 return View(c);
             else
                 return Redirect("/Category/Index/" + c.CategoryId);
@@ -61,32 +63,44 @@ namespace Perusedit.Controllers
         [Authorize]
         public ActionResult Edit(int id, Subject sub)
         {
+            System.Diagnostics.Debug.WriteLine(sub.CategoryId);
             var ui = System.Web.HttpContext.Current.User;
+            var subj = db.Subjects.Find(id);
+            var p = db.Categories;
+            ViewBag.Categories = p;
             if (ui.Identity.GetUserId() == sub.UserId)
             {
                 try
                 {
-                    var subj = db.Subjects.Find(id);
-                    if (TryUpdateModel(subj))
-                    {
-                        subj.Title = sub.Title;
-                        subj.Text = sub.Text;
-                        db.SaveChanges();
-                        TempData["msg"] = "Subiectul a fost editat.";
-                    }
-                    else
-                    {
-                        return View(sub);
-                    }
-                    return RedirectToAction("Index", "Category", new { id = subj.CategoryId });
+                    subj.Title = sub.Title;
+                    subj.Text = sub.Text;
+                    db.SaveChanges();
+                    TempData["msg"] = "Subiectul a fost editat.";
+
+
                 }
                 catch (Exception e)
                 {
                     return View(sub);
                 }
             }
-            else
-                return View(sub);
+            if (ui.IsInRole("Moderator") || ui.IsInRole("Admin"))
+            {
+                try
+                {
+
+                    subj.CategoryId = sub.CategoryId;
+                    subj.Category = db.Categories.Find(sub.CategoryId);
+                    db.SaveChanges();
+                    TempData["msg"] = "Subiectul a fost editat.";
+                }
+                catch (Exception e)
+                {
+                    return View(sub);
+                }
+            }
+
+            return RedirectToAction("Index", "Category", new { id = subj.CategoryId });
         }
 
         [HttpDelete]
