@@ -34,13 +34,21 @@
         }
         @if ((System.Web.HttpContext.Current.User.IsInRole("Admin") || System.Web.HttpContext.Current.User.IsInRole("Moderator")) && System.Web.HttpContext.Current.User.Identity.IsAuthenticated)
         {
-
+            @Html.LabelFor(model => model.Category, htmlAttributes: new { @class = "control-label col-md-2" })
             <select class="form-control" id="CategoryId" name="CategoryId">
                 @foreach (var i in ViewBag.Categories)
                 {
-                    <option value="@i.Id">@i.Name</option>
+                    if (Model.CategoryId == i.Id)
+                    {
+                        <option value="@i.Id" selected>@i.Name</option>
+                    }
+                    else
+                    {
+                        <option value="@i.Id">@i.Name</option>
+                    }
                 }
             </select>
+            <br />
         }
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
