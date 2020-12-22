@@ -10,15 +10,21 @@ namespace Perusedit.Controllers
     {
 
         private readonly ApplicationDbContext db = new ApplicationDbContext();
+        int limit = 3;
 
-        public ActionResult Index(int id)
+        public ActionResult Index(int id, int? page)
         {
+
             if (TempData.ContainsKey("msg"))
             {
                 ViewBag.msg = TempData["msg"];
             }
+            int pag = page ?? 1;
 
-            var c = db.Categories.Include("Subjects").First(m => m.Id == id);
+            var c = db.Categories.Find(id);
+            ViewBag.MaxPage = (c.Subjects.Count + limit - 1) / 3;
+            c.Subjects = c.Subjects.Skip((pag - 1) * limit).Take(limit).ToArray();
+            ViewBag.Page = pag;
             return View(c);
         }
 
