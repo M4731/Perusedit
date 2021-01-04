@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -34,6 +35,8 @@ namespace Perusedit.Models
         public int SubjectId { get; set; }
         public virtual Subject Subject { get; set; }
 
+        [Required]
+        public DateTime Date { get; set; }
 
         public int? FatherId { get; set; }
         public virtual Response Father { get; set; }

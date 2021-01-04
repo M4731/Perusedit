@@ -11,14 +11,36 @@ namespace Perusedit.Controllers
 
         private readonly ApplicationDbContext db = new ApplicationDbContext();
 
-        public ActionResult Details(int id)
+        public ActionResult Details(int id, string srt)
         {
             if (TempData.ContainsKey("msg"))
             {
                 ViewBag.msg = TempData["msg"];
             }
+            ViewBag.Srt = srt;
 
             var h = db.Subjects.Include("Responses").First(s => s.Id == id);
+
+            foreach(var r in h.Responses)
+            {
+                if(srt==null)
+                {
+                    r.Responses = r.Responses.OrderByDescending(s => s.Responses.Count).ToList();
+                }
+                else
+                {
+                    r.Responses = r.Responses.OrderByDescending(s => s.Date).ToList();
+                }
+            }
+            if (srt == null)
+            {
+                h.Responses = h.Responses.OrderByDescending(s => s.Responses.Count).ToList();
+            }
+            else
+            {
+                h.Responses = h.Responses.OrderByDescending(s => s.Date).ToList();
+            }
+
             return View(h);
         }
 

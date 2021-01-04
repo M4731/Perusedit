@@ -27,6 +27,7 @@ namespace Perusedit.Controllers
             {
                 var r = db.Responses.Find(res.FatherId);
                 res.SubjectId = r.SubjectId;
+                res.Date = DateTime.Now;
                 db.Responses.Add(res);
                 db.SaveChanges();
                 TempData["msg"] = "Raspunsul a fost adaugat.";
@@ -54,6 +55,7 @@ namespace Perusedit.Controllers
             try
             {
                 res.FatherId = null;
+                res.Date = DateTime.Now;
                 db.Responses.Add(res);
                 db.SaveChanges();
                 TempData["msg"] = "Raspunsul a fost adaugat.";
