@@ -4,3 +4,28 @@
 }
 
 <h2>Search</h2>
+
+<h3>Subjects</h3>
+@foreach (var i in ViewBag.Subjects)
+{
+    <div class="panel panel-default" style="width:100%">
+        <div class="panel-heading">
+            <h3 class="panel-title">@i.Title</h3>
+        </div>
+        <div id="ceva" class="panel-body">
+            <p>@i.Text</p>
+            <a href="/Subject/Details/@i.Id" class="btn btn-success pull-right">GO TO</a>
+        </div>
+    </div>
+}
+<hr />
+<h3>Responses</h3>
+@foreach (var i in ViewBag.Responses)
+{
+    <div class="panel panel-default" style="width:100%">
+        <div id="ceva" class="panel-body">
+            <p>@i.Text</p>
+            <a href="/Subject/Details/@i.SubjectId" class="btn btn-success pull-right">GO TO</a>
+        </div>
+    </div>
+}

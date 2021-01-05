@@ -23,7 +23,7 @@ namespace Perusedit.Controllers
 
             foreach(var r in h.Responses)
             {
-                if(srt==null)
+                if(srt == null)
                 {
                     r.Responses = r.Responses.OrderByDescending(s => s.Responses.Count).ToList();
                 }

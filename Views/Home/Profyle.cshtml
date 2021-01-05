@@ -1,0 +1,79 @@
+﻿@model Perusedit.Models.ApplicationUser
+@using Microsoft.AspNet.Identity
+
+@{
+    ViewBag.Title = "Profyle";
+}
+
+<h2>Profyle</h2>
+
+<div>
+    <h4>ApplicationUser</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Username
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.UserName)
+        </dd>
+        <dt>
+            Role
+        </dt>
+        <dd>
+            @ViewBag.Rol
+        </dd>
+        <dt>
+            Description
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Profil)
+        </dd>
+    </dl>
+</div>
+
+@if (System.Web.HttpContext.Current.User.Identity.GetUserId() == Model.Id)
+{
+    using (Html.BeginForm(actionName: "Pedit", controllerName: "Home", method: FormMethod.Post))
+    {
+        @Html.HttpMethodOverride(HttpVerbs.Put)
+        <div class="form-group">
+            <label>Description</label>
+            <input type="text" name="desc" />
+            &nbsp;
+            <button type="submit" class="btn btn-primary">Add</button>
+        </div>
+    }
+}
+
+@if (System.Web.HttpContext.Current.User.IsInRole("Admin"))
+{
+    if (ViewBag.Rol == "Moderator")
+    {
+        using (Html.BeginForm(actionName: "Rol", controllerName: "Home", method: FormMethod.Post))
+        {
+            @Html.HttpMethodOverride(HttpVerbs.Put)
+            <div class="form-group">
+                <input type="hidden" value="@Model.Id" name="yd"/>
+                <button type="submit" class="btn btn-primary">Acorda rolul de User</button>
+            </div>
+        }
+    }
+    else if(ViewBag.Rol == "User")
+    {
+        using (Html.BeginForm(actionName: "Rol", controllerName: "Home", method: FormMethod.Post))
+        {
+            @Html.HttpMethodOverride(HttpVerbs.Put)
+            <div class="form-group">
+                <input type="hidden" value="@Model.Id" name="yd"/>
+                <button type="submit" class="btn btn-primary">Acorda rolul de Moderator</button>
+            </div>
+        }
+    }
+}
+
+
+
+<p>
+    @Html.ActionLink("Back to List", "Index")
+</p>
