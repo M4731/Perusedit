@@ -5,31 +5,33 @@
     ViewBag.Title = "Profyle";
 }
 
-<h2>Profyle</h2>
-
 <div>
-    <h4>ApplicationUser</h4>
+    <br />
+    <br />
+    <h3 style="text-align:center">User profile</h3>
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            Username
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.UserName)
-        </dd>
-        <dt>
-            Role
-        </dt>
-        <dd>
-            @ViewBag.Rol
-        </dd>
-        <dt>
-            Description
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Profil)
-        </dd>
-    </dl>
+    <div>
+        <dl class="dl-horizontal">
+            <dt>
+                Username
+            </dt>
+            <dd style="margin-bottom:10px">
+                @Html.DisplayFor(model => model.UserName)
+            </dd>
+            <dt>
+                Role
+            </dt>
+            <dd style="margin-bottom:10px">
+                @ViewBag.Rol
+            </dd>
+            <dt>
+                Description
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Profil)
+            </dd>
+        </dl>
+    </div>
 </div>
 
 @if (System.Web.HttpContext.Current.User.Identity.GetUserId() == Model.Id)
@@ -37,11 +39,11 @@
     using (Html.BeginForm(actionName: "Pedit", controllerName: "Home", method: FormMethod.Post))
     {
         @Html.HttpMethodOverride(HttpVerbs.Put)
-        <div class="form-group">
-            <label>Description</label>
+        <div style="text-align:center" class="form-group">
+            <label>Modify Description</label>
             <input type="text" name="desc" />
             &nbsp;
-            <button type="submit" class="btn btn-primary">Add</button>
+            <button type="submit" class="btn btn-primary">Submit</button>
         </div>
     }
 }
@@ -53,7 +55,7 @@
         using (Html.BeginForm(actionName: "Rol", controllerName: "Home", method: FormMethod.Post))
         {
             @Html.HttpMethodOverride(HttpVerbs.Put)
-            <div class="form-group">
+            <div style="text-align:center" class="form-group">
                 <input type="hidden" value="@Model.Id" name="yd"/>
                 <button type="submit" class="btn btn-primary">Acorda rolul de User</button>
             </div>
@@ -64,7 +66,7 @@
         using (Html.BeginForm(actionName: "Rol", controllerName: "Home", method: FormMethod.Post))
         {
             @Html.HttpMethodOverride(HttpVerbs.Put)
-            <div class="form-group">
+            <div style="text-align:center" class="form-group">
                 <input type="hidden" value="@Model.Id" name="yd"/>
                 <button type="submit" class="btn btn-primary">Acorda rolul de Moderator</button>
             </div>
